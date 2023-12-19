@@ -172,18 +172,10 @@ public class Ejercicio1 extends JFrame {
 		tf_cantidad.setColumns(10);
 		tf_cantidad.setBounds(10, 242, 251, 32);
 		contentPane.add(tf_cantidad);
-		
-		/////////////////////////////////
-		// Crear el modelo de la tabla
 
         model.addColumn("Marca");
         model.addColumn("Cantidad");
         model.addColumn("Importe (S/.)");
-        
-        // Agregar datos a la tabla
-        //model.addRow(new Object[]{"Motorola Buds 3 Pro Glacier Gray", 25, 215});
-        //model.addRow(new Object[]{"Nokia 8 Neptune Blue ", 12, 6000});
-        //model.addRow(new Object[]{"Xiaomi 11 Lite 5G Black 128 GB", 2, 500});
 		
 		scrollPane_1 = new JScrollPane();
 		scrollPane_1.setBounds(278, 22, 669, 323);
@@ -198,15 +190,12 @@ public class Ejercicio1 extends JFrame {
 		ta_resultados.setBounds(278, 365, 669, 57);
 		contentPane.add(ta_resultados);
 		
-		
-		// Ajustar el ancho de las columnas individualmente
         TableColumn columnNombre = table.getColumnModel().getColumn(1);
         TableColumn columnEdad = table.getColumnModel().getColumn(1);
         TableColumn columnCiudad = table.getColumnModel().getColumn(0);
 
-        // Establecer los anchos preferidos
-        columnNombre.setPreferredWidth(200); // Ajusta el valor según tus necesidades
-        columnEdad.setPreferredWidth(50);    // Ajusta el valor según tus necesidades
+        columnNombre.setPreferredWidth(200);
+        columnEdad.setPreferredWidth(50);   
         columnCiudad.setPreferredWidth(150);
 	}
 
@@ -267,34 +256,32 @@ public class Ejercicio1 extends JFrame {
 	
 	void imprimir() {
 		
-		double total1 = precio1 * cantidadTotalCelulares1;
-		double total2 = precio2 * cantidadTotalCelulares2;
-		double total3 = precio3 * cantidadTotalCelulares3;
-		double total4 = precio4 * cantidadTotalCelulares4;
-		double total5 = precio5 * cantidadTotalCelulares5;
+		double importe_1 = precio1 * cantidadTotalCelulares1;
+		double importe_2 = precio2 * cantidadTotalCelulares2;
+		double importe_3 = precio3 * cantidadTotalCelulares3;
+		double importe_4 = precio4 * cantidadTotalCelulares4;
+		double importe_5 = precio5 * cantidadTotalCelulares5;
 		
-		// limpiar la tabla
 		model.setRowCount(0);
 		
-		// mostrar las filas
 		if(cantidadTotalCelulares1 > 0) {
-			model.addRow(new Object[]{modelos[0], cantidadTotalCelulares1, total1});
+			model.addRow(new Object[]{modelos[0], cantidadTotalCelulares1, importe_1});
 		}
 		
 		if(cantidadTotalCelulares2 > 0) {
-			model.addRow(new Object[]{modelos[1], cantidadTotalCelulares2, total2});
+			model.addRow(new Object[]{modelos[1], cantidadTotalCelulares2, importe_2});
 		}
 		
 		if(cantidadTotalCelulares3 > 0) {
-			model.addRow(new Object[]{modelos[2], cantidadTotalCelulares3, total3});
+			model.addRow(new Object[]{modelos[2], cantidadTotalCelulares3, importe_3});
 		}
 		
 		if(cantidadTotalCelulares4 > 0) {
-			model.addRow(new Object[]{modelos[3], cantidadTotalCelulares4, total4});
+			model.addRow(new Object[]{modelos[3], cantidadTotalCelulares4, importe_4});
 		}
 		
 		if(cantidadTotalCelulares5 > 0) {
-			model.addRow(new Object[]{modelos[4], cantidadTotalCelulares5, total5});
+			model.addRow(new Object[]{modelos[4], cantidadTotalCelulares5, importe_5});
 		}
 		
 	}
@@ -345,37 +332,4 @@ public class Ejercicio1 extends JFrame {
 		
 		cantidadObsequios = calcularObsequio(marca, cantidad);
 	}
-	
-	/*void actualizarTabla() {
-		
-		double total1 = precio1 * cantidadTotalCelulares1;
-		double total2 = precio2 * cantidadTotalCelulares2;
-		double total3 = precio3 * cantidadTotalCelulares3;
-		double total4 = precio4 * cantidadTotalCelulares4;
-		double total5 = precio5 * cantidadTotalCelulares5;
-		
-		// limpiar la tabla
-		model.setRowCount(0);
-		
-		// mostrar las filas
-		if(cantidadTotalCelulares1 > 0) {
-			model.addRow(new Object[]{modelos[0], cantidadTotalCelulares1, total1});
-		}
-		
-		if(cantidadTotalCelulares2 > 0) {
-			model.addRow(new Object[]{modelos[1], cantidadTotalCelulares2, total2});
-		}
-		
-		if(cantidadTotalCelulares3 > 0) {
-			model.addRow(new Object[]{modelos[2], cantidadTotalCelulares3, total3});
-		}
-		
-		if(cantidadTotalCelulares4 > 0) {
-			model.addRow(new Object[]{modelos[3], cantidadTotalCelulares4, total4});
-		}
-		
-		if(cantidadTotalCelulares5 > 0) {
-			model.addRow(new Object[]{modelos[4], cantidadTotalCelulares5, total5});
-		}
-	}*/
 }
