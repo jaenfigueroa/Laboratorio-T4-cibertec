@@ -17,9 +17,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;
 import java.awt.Color;
 import javax.swing.border.EtchedBorder;
-import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
 import javax.swing.JTable;
 
@@ -40,7 +38,8 @@ public class Ejercicio1 extends JFrame {
 	private JTable table;
 	private JScrollPane scrollPane_1;
     DefaultTableModel model = new DefaultTableModel();
-    private JButton btnNewButton;
+	private JTextArea ta_resultados;
+	private JButton btn_limpiar;
 	
 	String[] modelos = {
 		"Motorola Buds 3 Pro Glacier Gray",
@@ -50,11 +49,11 @@ public class Ejercicio1 extends JFrame {
 		"Samsung 10T 5G Lunar Silver"
 	};
 	
-	double precio1 = 329.90;
-	double precio2 = 699.9;
-	double precio3 = 899.9;
-	double precio4 = 1699.9;
-	double precio5 = 1999.9;
+	double precioModelo1 = 329.90;
+	double precioModelo2 = 699.9;
+	double precioModelo3 = 899.9;
+	double precioModelo4 = 1699.9;
+	double precioModelo5 = 1999.9;
 	
 	int cantidadTotalCelulares1 = 0;
 	int cantidadTotalCelulares2 = 0;
@@ -62,11 +61,16 @@ public class Ejercicio1 extends JFrame {
 	int cantidadTotalCelulares4 = 0;
 	int cantidadTotalCelulares5 = 0;
 	
-	int total = 0;
+	int cantidadObsequiosDeCelular1 = 0;
+	int cantidadObsequiosDeCelular2 = 0;
+	int cantidadObsequiosDeCelular3 = 0;
+	int cantidadObsequiosDeCelular4 = 0;
+	int cantidadObsequiosDeCelular5 = 0;
 	
-	int cantidadObsequios = 0;
-	private JTextArea ta_resultados;
+	double totalAPagar = 0;
 	
+	int cantidadObsequiosTotales = 0;
+
 	
 	/**
 	 * Launch the application.
@@ -88,6 +92,7 @@ public class Ejercicio1 extends JFrame {
 	 * Create the frame.
 	 */
 	public Ejercicio1() {
+		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 971, 542);
 		contentPane = new JPanel();
@@ -110,19 +115,21 @@ public class Ejercicio1 extends JFrame {
 		lblNewLabel.setFont(new Font("Dialog", Font.PLAIN, 16));
 		
 		tf_totalPagar = new JTextField();
+		tf_totalPagar.setEditable(false);
 		tf_totalPagar.setBounds(739, 12, 208, 38);
 		panel.add(tf_totalPagar);
 		tf_totalPagar.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		tf_totalPagar.setColumns(10);
 		
-		btnNewButton = new JButton("New button");
-		btnNewButton.addActionListener(new ActionListener() {
+		btn_limpiar = new JButton("Limpiar");
+		btn_limpiar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				actualizarTabla();
+				reiniciarApp();
 			}
 		});
-		btnNewButton.setBounds(10, 22, 85, 21);
-		panel.add(btnNewButton);
+		btn_limpiar.setFont(new Font("Dialog", Font.PLAIN, 16));
+		btn_limpiar.setBounds(10, 19, 251, 29);
+		panel.add(btn_limpiar);
 
 		lblNewLabel_1 = new JLabel("Jaen Figueroa");
 		lblNewLabel_1.setFont(new Font("Dialog", Font.PLAIN, 35));
@@ -142,7 +149,7 @@ public class Ejercicio1 extends JFrame {
 			}
 		});
 		btn_pagar.setFont(new Font("Dialog", Font.PLAIN, 16));
-		btn_pagar.setBounds(10, 384, 251, 38);
+		btn_pagar.setBounds(10, 390, 251, 32);
 		contentPane.add(btn_pagar);
 
 		btn_agregarCompra = new JButton("Agregar compra");
@@ -153,7 +160,7 @@ public class Ejercicio1 extends JFrame {
 			}
 		});
 		btn_agregarCompra.setFont(new Font("Dialog", Font.PLAIN, 16));
-		btn_agregarCompra.setBounds(10, 336, 251, 38);
+		btn_agregarCompra.setBounds(10, 348, 251, 32);
 		contentPane.add(btn_agregarCompra);
 
 		lblNewLabel_3 = new JLabel("Cantidad:");
@@ -182,24 +189,25 @@ public class Ejercicio1 extends JFrame {
 		contentPane.add(scrollPane_1);
 		
 		table = new JTable(model);
-		table.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		table.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		scrollPane_1.setViewportView(table);
 		
 		ta_resultados = new JTextArea();
-		ta_resultados.setFont(new Font("Arial", Font.PLAIN, 16));
+		ta_resultados.setEditable(false);
+		ta_resultados.setFont(new Font("Arial", Font.PLAIN, 18));
 		ta_resultados.setBounds(278, 365, 669, 57);
 		contentPane.add(ta_resultados);
 		
-        TableColumn columnNombre = table.getColumnModel().getColumn(1);
-        TableColumn columnEdad = table.getColumnModel().getColumn(1);
-        TableColumn columnCiudad = table.getColumnModel().getColumn(0);
+        TableColumn columnaMarca = table.getColumnModel().getColumn(1);
+        TableColumn columnaCantidad = table.getColumnModel().getColumn(1);
+        TableColumn columnaImporte = table.getColumnModel().getColumn(0);
 
-        columnNombre.setPreferredWidth(200);
-        columnEdad.setPreferredWidth(50);   
-        columnCiudad.setPreferredWidth(150);
+        columnaMarca.setPreferredWidth(200);
+        columnaCantidad.setPreferredWidth(50);   
+        columnaImporte.setPreferredWidth(150);
 	}
 
-	// METODOS
+	// METODOS PRINCIPALES
 
 	String leerMarca(){
 		return cb_marca.getSelectedItem().toString();
@@ -256,11 +264,11 @@ public class Ejercicio1 extends JFrame {
 	
 	void imprimir() {
 		
-		double importe_1 = precio1 * cantidadTotalCelulares1;
-		double importe_2 = precio2 * cantidadTotalCelulares2;
-		double importe_3 = precio3 * cantidadTotalCelulares3;
-		double importe_4 = precio4 * cantidadTotalCelulares4;
-		double importe_5 = precio5 * cantidadTotalCelulares5;
+		double importe_1 = precioModelo1 * cantidadTotalCelulares1;
+		double importe_2 = precioModelo2 * cantidadTotalCelulares2;
+		double importe_3 = precioModelo3 * cantidadTotalCelulares3;
+		double importe_4 = precioModelo4 * cantidadTotalCelulares4;
+		double importe_5 = precioModelo5 * cantidadTotalCelulares5;
 		
 		model.setRowCount(0);
 		
@@ -284,10 +292,11 @@ public class Ejercicio1 extends JFrame {
 			model.addRow(new Object[]{modelos[4], cantidadTotalCelulares5, importe_5});
 		}
 		
+		tf_totalPagar.setText("S/. " + totalAPagar);
 	}
 	
 	void mostrarCantidadObsequios() {
-		ta_resultados.setText("Cantidad de regalos: " + cantidadObsequios);
+		ta_resultados.setText("Cantidad de micas de obsequio: " + cantidadObsequiosTotales);
 	}
 	
 	// OTROS METODOS
@@ -296,40 +305,69 @@ public class Ejercicio1 extends JFrame {
 		double precio = 0;
 	
 		if(modelo == modelos[0]) {
-			precio = precio1;
+			precio = precioModelo1;
 		}
 		else if(modelo == modelos[1]) {
-			precio = precio2;
+			precio = precioModelo2;
 		}
 		else if(modelo == modelos[2]) {
-			precio = precio3;
+			precio = precioModelo3;
 		}
 		else if(modelo == modelos[3]) {
-			precio = precio4;
+			precio = precioModelo4;
 		}
 		else if(modelo == modelos[4]) {
-			precio = precio5;
+			precio = precioModelo5;
 		}
 
 		return precio;
 	}
 	
 	void agregarCompra() {
+		//leer los campos de entrada
 		String marca = leerMarca();
 		int cantidad = leerCantidad();
 		double precio = obtenerPrecio(marca);
 		
+		// acumular cantidadees
 		double importeParcial = calcularImporteParcial(precio, cantidad);
-		
-		total += importeParcial;
+		totalAPagar += importeParcial;
 		
 		acumularCantidades(marca, cantidad);
 	}
 	
 	void pagar() {
-		String marca = cb_marca.getSelectedItem().toString();
-		int cantidad = Integer.parseInt(tf_cantidad.getText());
+		cantidadObsequiosDeCelular1 = calcularObsequio(modelos[0], cantidadTotalCelulares1);
+		cantidadObsequiosDeCelular2 = calcularObsequio(modelos[1], cantidadTotalCelulares2);
+		cantidadObsequiosDeCelular3 = calcularObsequio(modelos[2], cantidadTotalCelulares3);
+		cantidadObsequiosDeCelular4 = calcularObsequio(modelos[3], cantidadTotalCelulares4);
+		cantidadObsequiosDeCelular5 = calcularObsequio(modelos[4], cantidadTotalCelulares5);
 		
-		cantidadObsequios = calcularObsequio(marca, cantidad);
+		cantidadObsequiosTotales = 
+				cantidadObsequiosDeCelular1 +
+				cantidadObsequiosDeCelular2 +
+				cantidadObsequiosDeCelular3 +
+				cantidadObsequiosDeCelular4 +
+				cantidadObsequiosDeCelular5;
+	}
+	
+	void reiniciarApp() {
+		// reiniciar valores de las variables
+		cantidadTotalCelulares1 = 0;
+		cantidadTotalCelulares2 = 0;
+		cantidadTotalCelulares3 = 0;
+		cantidadTotalCelulares4 = 0;
+		cantidadTotalCelulares5 = 0;
+		
+		totalAPagar = 0;
+		
+		cantidadObsequiosTotales = 0;
+		
+		// limpiar visualmente
+		model.setRowCount(0);
+		tf_cantidad.setText("");
+		tf_totalPagar.setText("");
+		ta_resultados.setText("");
+		cb_marca.setSelectedIndex(0);
 	}
 }
